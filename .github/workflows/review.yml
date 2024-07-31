@@ -15,7 +15,7 @@ jobs:
         url: 'localhost:8000/ask'
         method: 'POST'
         customHeaders: '{"Content-Type": "application/json"}'
-        data: '{"session_id": 1, "question_req": "https://github.com/KeinaTK/private_github/pull/1", "llm": "agent"}'
+        data: '{"session_id": 1, "question_req": "https://github.com/KeinaTK/action/pull/1", "llm": "agent"}'
     - name: Show Response
       run: |
         echo ${{ steps.galadriel.outputs.response }}
