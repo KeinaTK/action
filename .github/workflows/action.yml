@@ -24,3 +24,4 @@ jobs:
         echo ${{ steps.galadriel.outputs.headers }}
         echo ${{ steps.galadriel.outputs.status }}
         echo ${{ fromJson(steps.galadriel.outputs.response).field_you_want_to_access }}
+        
