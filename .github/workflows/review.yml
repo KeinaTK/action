@@ -12,11 +12,10 @@ jobs:
       id: galadriel
       shell: bash
       run: |
-        git diff \
-        ${{ github.event.pull_request.base.ref }} \
-        ${{ github.event.pull_request.head.ref }} > pr.diff
+
+        echo ${{ github.event.pull_request.diff_url }}
         
-        echo "MENSAGEM RETORNADO DO GALADRIEL"
+        echo "MENSAGEM RETORNADO DO GALADRIEL "
         AI_RESPONSE=$(echo '{"response": "LGTM"}' | jq -r .response)
         echo $AI_RESPONSE
         echo "ai_response=$AI_RESPONSE" >> "$GITHUB_OUTPUT"
