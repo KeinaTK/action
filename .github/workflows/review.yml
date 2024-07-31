@@ -3,8 +3,6 @@ on:
     types:
       - opened
       - synchronize
-    branches-ignore:
-      - 'main'
 jobs:
   assign_ticket:
     runs-on: ubuntu-latest
