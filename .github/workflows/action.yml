@@ -1,0 +1,26 @@
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    branches-ignore:
+      - 'main'
+jobs:
+  assign_ticket:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+    - name: Request Galadriel API
+      id: galadriel
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: 'localhost:8000/ask'
+        method: 'POST'
+        customHeaders: '{"Content-Type": "application/json"}'
+        data: '{"session_id": 1, "question_req": "https://github.com/KeinaTK/private_github/pull/1", "llm": "agent"}'
+    - name: Show Response
+      run: |
+        echo ${{ steps.galadriel.outputs.response }}
+        echo ${{ steps.galadriel.outputs.headers }}
+        echo ${{ steps.galadriel.outputs.status }}
+        echo ${{ fromJson(steps.galadriel.outputs.response).field_you_want_to_access }}
