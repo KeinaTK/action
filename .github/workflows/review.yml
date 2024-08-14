@@ -12,11 +12,15 @@ jobs:
       id: galadriel
       shell: bash
       run: |
-        echo ${{ github.event.pull_request.diff_url }}
-        curl -sSL -o pr.diff ${{ github.event.pull_request.diff_url }}
-        echo "MENSAGEM RETORNADA DO GALADRIEL "
-        AI_RESPONSE=$(echo '{"response": "LGTM"}' | jq -r .response)
-        echo $AI_RESPONSE
+        PR_DIFF=$(curl -sSL ${{ github.event.pull_request.diff_url }})
+        AI_RESPONSE=$(curl  -X POST \
+          'https://galadria-api.zarp.tech/agent' \
+          --data-raw "{
+            \"agent\": \"review\",
+            \"github_repo\": \"$PR_DIFF\",
+            \"model\": \"gpt-3.5-turbo\"
+          }" \
+        )
         echo "ai_response=$AI_RESPONSE" >> "$GITHUB_OUTPUT"
 
     - name: Create comment
