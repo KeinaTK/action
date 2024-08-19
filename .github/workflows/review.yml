@@ -1,0 +1,32 @@
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+jobs:
+  review_by_ai:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+    - name: Review PR
+      id: galadriel
+      shell: bash
+      run: |
+        curl -sSL -o pr.diff ${{ github.event.pull_request.diff_url }}
+        AI_RESPONSE=$(curl \
+          'https://galadria-api.zarp.tech/review/from-diff' \
+          --header 'X-Agent-Model: gpt-3.5-turbo' \
+          --data-binary @pr.diff \
+        )
+        echo AI_RESPONSE
+        echo $AI_RESPONSE
+
+        echo "ai_response=$AI_RESPONSE" >> "$GITHUB_OUTPUT"
+
+    - name: Create comment
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        body: ${{ steps.galadriel.outputs.ai_response }}
+        reactions: '+1'
+        
