@@ -18,6 +18,8 @@ jobs:
           --header 'X-Agent-Model: gpt-3.5-turbo' \
           --data-binary @pr.diff \
         )
+        echo AI_RESPONSE
+        echo $AI_RESPONSE
 
         echo "ai_response=$AI_RESPONSE" >> "$GITHUB_OUTPUT"
 
