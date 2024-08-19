@@ -21,7 +21,7 @@ jobs:
         echo AI_RESPONSE
         echo $AI_RESPONSE
 
-        echo "ai_response=$AI_RESPONSE" >> "$GITHUB_OUTPUT"
+        echo "ai_response=\"$AI_RESPONSE\"" >> "$GITHUB_OUTPUT"
 
     - name: Create comment
       uses: peter-evans/create-or-update-comment@v4
