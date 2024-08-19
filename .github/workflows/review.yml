@@ -12,15 +12,13 @@ jobs:
       id: galadriel
       shell: bash
       run: |
-        PR_DIFF=$(curl -sSL ${{ github.event.pull_request.diff_url }})
-        AI_RESPONSE=$(curl  -X POST \
-          'https://galadria-api.zarp.tech/agent' \
-          --data-raw "{
-            \"agent\": \"review\",
-            \"github_repo\": \"$PR_DIFF\",
-            \"model\": \"gpt-3.5-turbo\"
-          }" \
+        curl -sSL -o pr.diff ${{ github.event.pull_request.diff_url }}
+        AI_RESPONSE=$(curl \
+          'https://galadria-api.zarp.tech/review/from-diff' \
+          --header 'X-Agent-Model: gpt-3.5-turbo' 
+          --data-binary @pr.diff \
         )
+
         echo "ai_response=$AI_RESPONSE" >> "$GITHUB_OUTPUT"
 
     - name: Create comment
