@@ -13,20 +13,15 @@ jobs:
       shell: bash
       run: |
         curl -sSL -o pr.diff ${{ github.event.pull_request.diff_url }}
-        AI_RESPONSE=$(curl \
+        curl \
           'https://galadria-api.zarp.tech/review/from-diff' \
           --header 'X-Agent-Model: gpt-3.5-turbo' \
           --data-binary @pr.diff \
-        )
-        echo AI_RESPONSE
-        echo $AI_RESPONSE
-
-        echo "ai_response=\"$AI_RESPONSE\"" >> "$GITHUB_OUTPUT"
+          -o ai_response.md
 
     - name: Create comment
       uses: peter-evans/create-or-update-comment@v4
       with:
         issue-number: ${{ github.event.pull_request.number }}
-        body: ${{ steps.galadriel.outputs.ai_response }}
+        body-path: ai_response.md
         reactions: '+1'
-        
