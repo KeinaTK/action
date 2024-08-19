@@ -15,7 +15,7 @@ jobs:
         curl -sSL -o pr.diff ${{ github.event.pull_request.diff_url }}
         AI_RESPONSE=$(curl \
           'https://galadria-api.zarp.tech/review/from-diff' \
-          --header 'X-Agent-Model: gpt-3.5-turbo' 
+          --header 'X-Agent-Model: gpt-3.5-turbo' \
           --data-binary @pr.diff \
         )
 
