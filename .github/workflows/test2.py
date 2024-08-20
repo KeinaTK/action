@@ -42,7 +42,6 @@ def main():
     manager.show_tasks()
     
     manager.mark_task_completed("Finish homework")
-    
     manager.show_tasks()
     
     manager.remove_task("Buy groceries")
